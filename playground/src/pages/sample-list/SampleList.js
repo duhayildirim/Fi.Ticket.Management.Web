@@ -9,7 +9,7 @@ import {
   scopeKeys,
   stringFormat,
 } from 'component/base';
-import { Card, DataGrid, Filter, Input, BasePage, withFormPage } from 'component/ui';
+import { Card, DataGrid, Filter, Input, Select, BasePage, withFormPage } from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
 import { apiUrls } from '../../constants';
@@ -36,75 +36,57 @@ const SampleList = (props) => {
   }, []);
 
   const getDataSource = (data) => {
-    // executeGet({ url: apiUrls.TestDefinitionsApi, setStateDelegate: setDataSource });
-    // executeGet({ url: `https://api.sampleapis.com/cartoons/cartoons2D` }).then((response) => {
-    //   if (response.Value) {
-    //     setDataSource(response.Value);
-    //   }
-    // });
-
-    if (data?.Id) {
-      executeGet({ url: stringFormat(apiUrls.MetaDataCountriesById, data.Id) }).then((response) => {
-        if (response.Value) {
-          setDataSource([response.Value]);
-        }
-      });
+    
+    if(data?.Id){
+      fetch(`http://investmentbank.localhost:60000/api/dummydata/${data.Id}`)
+        .then((response) => response.json())
+        .then((data) => {
+            setDataSource([data]);
+        })
+        .catch((error) => {
+            console.error('-api/dummydata/:id- error: ', error);
+        });
     } else {
-      executeGet({ url: apiUrls.MetaDataCountries }).then((response) => {
-        if (response.Value) {
-          setDataSource(response.Value);
-        }
-      });
-    }
-  };
-
-  const deleteData = (id) => {
-    if (id) {
-
-      executeDelete({ url: stringFormat(apiUrls.sampleApi, id) }).then((response) => {
-        if (response.Success && response.Value) {
-          getDataSource();
-        }
-      });
+      fetch('http://investmentbank.localhost:60000/api/dummydata')
+        .then((response) => response.json())
+        .then((data) => {
+          setDataSource(data);
+        })
+        .catch((error) => {
+          console.error('-api/dummydata- error: ', error);
+        });
     }
   };
 
   const columns = useMemo(() => {
     return [
       { name: 'Id', header: translate('Id'), visible: false },
-      { name: 'Code', header: translate('Code') },
       { name: 'Name', header: translate('Name') },
-      { name: 'OfficialStateName', header: translate('Official state name'), }
+      { name: 'Surname', header: translate('Surname') },
+      { name: 'Age', header: translate('Age') },
+      { name: 'Email', header: translate('Email') },
+      { name: 'TicketDescription', header: translate('Ticket description'), defaultFlex: 1 },
+      { name: 'Status', header: translate('Ticket status'), backgroundColor : "red"},
+      { name: 'Address', header: translate('Address')}
     ];
   }, []);
 
-  const onActionClick = (action) => { };
+  const onActionClick = (action) => {};
 
   const addClicked = useCallback(() => {
-    showDialog({
-      title: translate('Sample add'),
-      content: <SampleDefinition />,
-      callback: (data) => {
-        if (data) {
-          getDataSource();
-        }
-      },
-    });
+    return true;
   }, []);
 
-  const editClicked = useCallback((id, data) => {
-    data &&
-      showDialog({
-        title: translate('Sample edit'),
-        content: <SampleDefinition data={data} />,
-        callback: () => {
-          getDataSource();
-        },
-      });
+  const viewClicked = useCallback(() => {
+    return true
+  }, []);
+  
+  const editClicked = useCallback(() => {
+    return true;
   }, []);
 
-  const deleteClicked = useCallback((id, data) => {
-    data && deleteData(data.Id);
+  const deleteClicked = useCallback(() => {
+    return true;
   }, []);
 
   const gridActionList = useMemo(
@@ -112,15 +94,20 @@ const SampleList = (props) => {
       {
         name: 'delete',
         onClick: deleteClicked,
-        scopeKey: scopeKeys.Create_Loan,
+        scopeKey: scopeKeys.Public,
       },
       {
         name: 'edit',
         onClick: editClicked,
-        scopeKey: scopeKeys.Create_Loan,
+        scopeKey: scopeKeys.Public,
       },
+      {
+        name: 'detail',
+        onClick: viewClicked,
+        scopeKey: scopeKeys.Public,
+      }
     ],
-    [deleteClicked, editClicked]
+    [deleteClicked, editClicked, viewClicked]
   );
 
   const cardActionList = useMemo(
@@ -129,34 +116,33 @@ const SampleList = (props) => {
         name: 'Add',
         icon: 'add',
         onClick: addClicked,
-        scopeKey: scopeKeys.Create_Loan,
-      },
-    ],
-    [addClicked]
-  );
+        scopeKey: scopeKeys.Public,
+      }
+    ]
+  )
 
   return (
-    <BasePage {...props} onActionClick={onActionClick}>
+    <BasePage {...props} title="Başvuru yönetimi" onActionClick={onActionClick} >
       <Filter onFilter={(data) => getDataSource(data)}>
         <Input
           name={'Id'}
           label={translate('Id')}
           primaryFilter
+          xs={2}
         />
       </Filter>
       <Card
-        scopeKey={scopeKeys.View_Loan}
         showHeader={true}
         actionList={cardActionList}
+        scopeKey={scopeKeys.Public}
       >
         <DataGrid
           dataSource={dataSource}
           columns={columns}
           actionList={gridActionList}
           autoSizeAllColumns
-          idProperty="Id"
         />
-      </Card>
+      </Card>  
     </BasePage>
   );
 };
