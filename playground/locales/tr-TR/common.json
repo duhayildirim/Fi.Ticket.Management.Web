@@ -1,5 +1,11 @@
 {
-  "Official state name": "Resmi devlet adı",
+  "Name": "Adı",
+  "Surname": "Soyadı",
+  "Age": "Yaş",
+  "Email": "E-mail",
+  "Ticket description": "Başvuru nedeni",
+  "Address": "Address",
+  "Ticket status": "Başvuru durumu",
   "Sample add": "Örnek ekle",
   "Sample edit": "Örnek düzenle",
   "Sample text": "Örnek metin"
