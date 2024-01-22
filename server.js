@@ -11,6 +11,42 @@ const port = 60000;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get('/api/dummydata', (req, res) => {
+  res.json(dummyData);
+});
+
+app.get('/api/dummydata/:id', (req, res) => {
+  const requestedId = req.params.id;
+  const requestedData = dummyData.find(item => item.Id === requestedId);
+
+  if (requestedData) {
+    res.json(requestedData);
+  } else {
+    res.status(404).json({ error: 'Veri bulunamadı' });
+  }
+});
+
+app.delete('/api/dummydata/:id', (req, res) => {
+  const requestedId = req.params.id;
+  const index = dummyData.findIndex(item => item.Id === requestedId);
+
+  if (index !== -1) {
+    // Veriyi listeden çıkar
+    dummyData.splice(index, 1);
+
+    // Dosyaya yazma işlemi (asenkron)
+    fs.writeFile('./playground/public/ticket-dummy/DummyData.json', JSON.stringify(dummyData), (err) => {
+      if (err) {
+        console.error('Dosyaya yazma hatası:', err);
+        res.status(500).json({ error: 'Dosyaya yazma hatası' });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  } else {
+    res.status(404).json({ error: 'Veri bulunamadı' });
+  }
+});
 
 app.post('/api/dummydata', (req, res) => {
   const newData = req.body;
@@ -30,21 +66,6 @@ app.post('/api/dummydata', (req, res) => {
       res.json(newData);
     }
   });
-});
-
-app.get('/api/dummydata', (req, res) => {
-  res.json(dummyData);
-});
-
-app.get('/api/dummydata/:id', (req, res) => {
-  const requestedId = req.params.id;
-  const requestedData = dummyData.find(item => item.Id === requestedId);
-
-  if (requestedData) {
-    res.json(requestedData);
-  } else {
-    res.status(404).json({ error: 'Veri bulunamadı' });
-  }
 });
 
 app.use(express.static(path.join(__dirname, 'build')));
