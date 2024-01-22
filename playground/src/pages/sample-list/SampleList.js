@@ -12,6 +12,7 @@ import { Card, DataGrid, Filter, Input, BasePage, withFormPage } from 'component
 
 import SampleDefinition from '../sample-definition';
 import { apiUrls } from '../../constants';
+import { SampleDetail } from '../sample-detail';
 
 /**
  * UI unique identifier meta-data.
@@ -85,16 +86,42 @@ const SampleList = (props) => {
   }, []);
 
   const viewClicked = useCallback(() => {
-    return true
+    showDialog({
+      title: translate('Ticket details'),
+      content: <SampleDetail />,
+      callback: (data) => {
+        if (data) {
+          getDataSource();
+        }
+      },
+    });
   }, []);
   
   const editClicked = useCallback(() => {
     return true;
   }, []);
 
-  const deleteClicked = useCallback(() => {
-    return true;
+  const deleteClicked = useCallback((id, data) => {
+    data && deleteData(data.Id);
   }, []);
+
+  const deleteData = (id) => {
+    if (id) {
+      fetch(`http://investmentbank.localhost:60000/api/dummydata/${id}`, {
+        method: 'DELETE',
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Veri başarıyla silindi:', data);
+          if (data) {
+            getDataSource();
+          }
+        })
+        .catch((error) => {
+          console.error('Veri silme hatası:', error);
+        });
+    }
+  };
 
   const gridActionList = useMemo(
     () => [
