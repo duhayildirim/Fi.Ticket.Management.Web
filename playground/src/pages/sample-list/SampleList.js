@@ -7,9 +7,8 @@ import {
   useSnackbar,
   useTranslation,
   scopeKeys,
-  stringFormat,
 } from 'component/base';
-import { Card, DataGrid, Filter, Input, Select, BasePage, withFormPage } from 'component/ui';
+import { Card, DataGrid, Filter, Input, BasePage, withFormPage } from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
 import { apiUrls } from '../../constants';
@@ -74,7 +73,15 @@ const SampleList = (props) => {
   const onActionClick = (action) => {};
 
   const addClicked = useCallback(() => {
-    return true;
+    showDialog({
+      title: translate('Create ticket'),
+      content: <SampleDefinition />,
+      callback: (data) => {
+        if (data) {
+          getDataSource();
+        }
+      },
+    });
   }, []);
 
   const viewClicked = useCallback(() => {
