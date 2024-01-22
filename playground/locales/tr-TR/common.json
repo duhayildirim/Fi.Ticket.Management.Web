@@ -4,9 +4,10 @@
   "Age": "Yaş",
   "Email": "E-mail",
   "Ticket description": "Başvuru nedeni",
-  "Address": "Address",
+  "Address": "Adres",
   "Ticket status": "Başvuru durumu",
-  "Sample add": "Örnek ekle",
-  "Sample edit": "Örnek düzenle",
-  "Sample text": "Örnek metin"
+  "Create ticket": "Başvuru oluştur",
+  "Update ticket": "Başvuru güncelle",
+  "Delete ticket": "Başvuru sil",
+  "Ticket details": "Başvuru detayları"
 }

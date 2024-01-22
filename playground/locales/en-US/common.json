@@ -1,6 +1,13 @@
 {
-  "Official state name": "Official state name",
-  "Sample add": "Sample add",
-  "Sample edit": "Sample edit",
-  "Sample text": "Sample text"
+  "Name": "Name",
+  "Surname": "Surname",
+  "Age": "Age",
+  "Email": "E-mail",
+  "Ticket description": "Ticket description",
+  "Address": "Address",
+  "Ticket status": "Ticket status",
+  "Create ticket": "Create ticket",
+  "Update ticket": "Update ticket",
+  "Delete ticket": "Delete ticket",
+  "Ticket details": "Ticket details"
 }
