@@ -1,21 +1,41 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const bodyParser = require('body-parser');
 const dummyData = require('./playground/public/ticket-dummy/DummyData.json');
+const fs = require('fs');
 
 const app = express();
 const port = 60000;
 
-// CORS ayarları
 app.use(cors());
+app.use(bodyParser.json());
 
-// API endpoint'i
+
+app.post('/api/dummydata', (req, res) => {
+  const newData = req.body;
+
+  // Otomatik artan ID oluştur
+  const lastId = parseInt(dummyData[dummyData.length - 1].Id);
+  newData.Id = (lastId + 1).toString();
+
+  dummyData.push(newData);
+
+  // Dosyaya yazma işlemi (asenkron)
+  fs.writeFile('./playground/public/ticket-dummy/DummyData.json', JSON.stringify(dummyData), (err) => {
+    if (err) {
+      console.error('Dosyaya yazma hatası:', err);
+      res.status(500).json({ error: 'Dosyaya yazma hatası' });
+    } else {
+      res.json(newData);
+    }
+  });
+});
+
 app.get('/api/dummydata', (req, res) => {
-  debugger;
   res.json(dummyData);
 });
 
-// API endpoint'i - Id'ye göre veri çekme
 app.get('/api/dummydata/:id', (req, res) => {
   const requestedId = req.params.id;
   const requestedData = dummyData.find(item => item.Id === requestedId);
@@ -27,10 +47,8 @@ app.get('/api/dummydata/:id', (req, res) => {
   }
 });
 
-// Static dosyaları servis etmek için (React uygulamanızın build dosyaları)
 app.use(express.static(path.join(__dirname, 'build')));
 
-// Diğer tüm yolları React uygulamanıza yönlendirme
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
