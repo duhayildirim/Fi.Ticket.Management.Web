@@ -68,6 +68,37 @@ app.post('/api/dummydata', (req, res) => {
   });
 });
 
+app.put('/api/dummydata/:id', (req, res) => {
+  const requestedId = req.params.id;
+  const updatedData = req.body;
+
+  // İlgili ID'ye sahip veriyi bul
+  const existingDataIndex = dummyData.findIndex(item => item.Id === requestedId);
+
+  if (existingDataIndex !== -1) {
+    // Var olan veriyi güncelle
+    dummyData[existingDataIndex] = {
+      ...dummyData[existingDataIndex],
+      Message: updatedData.Message,
+      Status: ["inceleniyor", "reddedildi", "onaylandı"].includes(updatedData.Status)
+        ? updatedData.Status
+        : dummyData[existingDataIndex].Status // Eğer geçersiz bir Status gönderilirse, mevcut değeri kullan
+    };
+
+    // Dosyaya yazma işlemi (asenkron)
+    fs.writeFile('./playground/public/ticket-dummy/DummyData.json', JSON.stringify(dummyData), (err) => {
+      if (err) {
+        console.error('Dosyaya yazma hatası:', err);
+        res.status(500).json({ error: 'Dosyaya yazma hatası' });
+      } else {
+        res.json(dummyData[existingDataIndex]);
+      }
+    });
+  } else {
+    res.status(404).json({ error: 'Veri bulunamadı' });
+  }
+});
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
