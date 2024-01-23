@@ -11,7 +11,6 @@ import {
 import { Card, DataGrid, Filter, Input, BasePage, withFormPage } from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
-import { apiUrls } from '../../constants';
 import { SampleDetail } from '../sample-detail';
 
 /**
@@ -23,28 +22,23 @@ const uiMetadata = {
 };
 
 const SampleList = (props) => {
-  const { enqueueSnackbar } = useSnackbar();
-  const { tenant } = useAuthenticationContext();
   const { showDialog } = useFormManagerContext();
-  const [dataSource, setDataSource] = useState([]);
+  const [ dataSource, setDataSource ] = useState([]);
   const { translate } = useTranslation();
-
-  const { executeGet, executeDelete } = useFiProxy();
 
   useEffect(() => {
     getDataSource();
   }, []);
 
   const getDataSource = (data) => {
-    
     if(data?.Id){
       fetch(`http://investmentbank.localhost:60000/api/dummydata/${data.Id}`)
         .then((response) => response.json())
         .then((data) => {
-            setDataSource([data]);
+          setDataSource([data]);
         })
         .catch((error) => {
-            console.error('-api/dummydata/:id- error: ', error);
+          console.error('-api/dummydata/:id- error: ', error);
         });
     } else {
       fetch('http://investmentbank.localhost:60000/api/dummydata')
@@ -85,10 +79,10 @@ const SampleList = (props) => {
     });
   }, []);
 
-  const viewClicked = useCallback(() => {
+  const viewClicked = useCallback((id, data) => {
     showDialog({
       title: translate('Ticket details'),
-      content: <SampleDetail />,
+      content: <SampleDetail Id={data.Id} />,
       callback: (data) => {
         if (data) {
           getDataSource();

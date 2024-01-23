@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 
 import {
-  useAuthenticationContext,
-  useFiProxy,
-  useSnackbar,
   useTranslation,
   scopeKeys,
-  stringFormat
 } from 'component/base';
 import {
   BasePage,
@@ -14,8 +10,6 @@ import {
   Input,
   withFormPage,
 } from 'component/ui';
-
-import { apiUrls } from '../../constants';
 
 /**
  * UI unique identifier meta-data.
@@ -27,11 +21,6 @@ const uiMetadata = {
 
 const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
   const { translate } = useTranslation();
-  const { tenant, user } = useAuthenticationContext();
-  const { enqueueSnackbar } = useSnackbar();
-
-  const [dataModel, setDataModel] = useState({});
-
   const nameRef = useRef();
   const surnameRef = useRef();
   const ageRef = useRef();
