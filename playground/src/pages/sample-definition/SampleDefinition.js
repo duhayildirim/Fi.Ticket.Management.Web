@@ -37,7 +37,7 @@ const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
         Email: emailRef.current.value,
         TicketDescription: descriptionRef.current.value,
         Address: addressRef.current.value,
-        Message: "",
+        Message: "Henüz bir mesaj yok.",
         Status: "inceleniyor"
       }
       fetch('http://investmentbank.localhost:60000/api/dummydata', {
@@ -87,9 +87,7 @@ const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
           xs={2}
           required
           ref={ageRef}
-          mask={/^[1-9]?[0-9]{1}$|^100$/}
           label={translate('Age')}
-          inputMode="number"
         />
         <Input
           xs={6}

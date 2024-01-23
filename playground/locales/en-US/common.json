@@ -1,4 +1,5 @@
 {
+  "Id": "ID",
   "Name": "Name",
   "Surname": "Surname",
   "Age": "Age",
@@ -9,5 +10,8 @@
   "Create ticket": "Create ticket",
   "Update ticket": "Update ticket",
   "Delete ticket": "Delete ticket",
-  "Ticket details": "Ticket details"
+  "Ticket details": "Ticket details",
+  "Send a message to the user for ticket": "Send a message to the user for ticket",
+  "Update user's ticket status": "Update user's ticket status",
+  "Message sent to user": "Message sent to user:"
 }

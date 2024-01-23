@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 
 import {
-  useAuthenticationContext,
-  useFiProxy,
   useFormManagerContext,
-  useSnackbar,
   useTranslation,
   scopeKeys,
 } from 'component/base';
 import { Card, DataGrid, Filter, Input, BasePage, withFormPage } from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
-import { SampleDetail } from '../sample-detail';
+import SampleDetail from '../sample-detail';
+import SampleUpdate from '../sample-update';
 
 /**
  * UI unique identifier meta-data.
@@ -91,8 +89,16 @@ const SampleList = (props) => {
     });
   }, []);
   
-  const editClicked = useCallback(() => {
-    return true;
+  const editClicked = useCallback((id, data) => {
+    showDialog({
+      title: translate('Update ticket'),
+      content: <SampleUpdate Id={data.Id} />,
+      callback: (data) => {
+        if (data) {
+          getDataSource();
+        }
+      },
+    });
   }, []);
 
   const deleteClicked = useCallback((id, data) => {

@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   scopeKeys,
+  useTranslation
 } from 'component/base';
 import {
   BasePage,
   Card,
   InformationText,
-  withFormPage,
+  withFormPage
 } from 'component/ui';
 
 /**
@@ -18,7 +19,9 @@ const uiMetadata = {
   uiKey: 'u29dhazade8',
 };
 
-const SampleDetail = ({Id, ...rest}) => {
+const SampleDetail = ({close , Id, ...rest}) => {
+  const { translate } = useTranslation();
+
   const [ dataSource, setDataSource ] = useState();
 
   const getDataSource = (Id) => {
@@ -36,9 +39,16 @@ const SampleDetail = ({Id, ...rest}) => {
     Id && getDataSource(Id);
   }, [Id]);
 
+  const onActionClick = (action) => {
+    if (action.commandName == 'Cancel') {
+      close && close(false);
+    }
+  }
+
   return (
     <BasePage
       {...rest}
+      onActionClick={onActionClick}
       actionList={[
         { name: 'Cancel' },
       ]}
@@ -46,50 +56,49 @@ const SampleDetail = ({Id, ...rest}) => {
       <Card scopeKey={scopeKeys.Public}>
         <InformationText
           subtitle={dataSource?.Id}
-          title="ID:"
+          title={translate('Id')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.Name}
-          title="Ad:"
+          title={translate('Name')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.Surname}
-          title="Soyad"
+          title={translate('Surname')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.Age}
-          title="Yaşı:"
-          xs={4}
-        />
-        <InformationText
-          subtitle={dataSource?.Email}
-          title="E-mail:"
+          title={translate('Age')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.Address}
-          title="Adres:"
+          title={translate('Address')}
+          xs={4}
+        />
+        <InformationText
+          subtitle={dataSource?.Address}
+          title={translate('Address')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.TicketDescription}
-          title="Başvuru sebebi:"
+          title={translate('Ticket description')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.Message}
-          title="Kullanıcıya gönderilen mesaj:"
+          title={translate('Message sent to user')}
           xs={4}
         />
         <InformationText
           subtitle={dataSource?.Status}
-          title="Başvuru sonucu:"
+          title={translate('Ticket status')}
           xs={4}
         />
-
       </Card>
     </BasePage>
   );

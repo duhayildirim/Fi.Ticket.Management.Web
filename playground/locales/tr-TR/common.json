@@ -1,4 +1,5 @@
 {
+  "Id": "ID",
   "Name": "Adı",
   "Surname": "Soyadı",
   "Age": "Yaş",
@@ -9,5 +10,8 @@
   "Create ticket": "Başvuru oluştur",
   "Update ticket": "Başvuru güncelle",
   "Delete ticket": "Başvuru sil",
-  "Ticket details": "Başvuru detayları"
+  "Ticket details": "Başvuru detayları",
+  "Send a message to the user for ticket": "Başvuru için kullanıcıya bir mesaj gönder",
+  "Update user's ticket status": "Kullanıcının başvuru durumunu güncelle",
+  "Message sent to user": "Kullanıcıya gönderilen mesaj"
 }
