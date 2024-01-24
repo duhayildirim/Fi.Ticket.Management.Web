@@ -22,6 +22,7 @@ const uiMetadata = {
 
 // Data grid ekranında tüm verilerin listelenmesine gerek olmadığından 
 // ayrı bir detay sayfasıyla, ilgili datanın tüm detaylarını gösterecek bir diyalog oluşturuldu
+// Datagrid Row Detail yapısı yerine daha fazla kodlama ve frameworkü anlamak açısından detaylar ayrı bir sayfa da tasarlandı.
 const SampleDetail = ({close , Id, ...rest}) => {
   const { translate } = useTranslation();
 

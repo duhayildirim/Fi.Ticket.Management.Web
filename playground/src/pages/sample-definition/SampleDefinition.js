@@ -77,12 +77,16 @@ const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
           required
           ref={nameRef}
           label={translate('Name')}
+          type="letter"
+          validate={true}
         />
         <Input
           xs={5}
           required
           ref={surnameRef}
           label={translate('Surname')}
+          type="letter"
+          validate={true}
         />
         <InputFormat
           xs={2}
