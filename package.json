@@ -9,7 +9,7 @@
     "playground"
   ],
   "scripts": {
-    "start": "yarn start:remote",
+    "start": "concurrently \"yarn start:remote\" \"node server.js\"",
     "start:app": "cross-env WEB_DOMAIN=https://dev.fimple.co.uk yarn --cwd .config/app run start:remote",
     "start:dev": "cross-env WEB_DOMAIN=https://dev.fimple.co.uk lerna run start --stream --concurrency=30 --loglevel=error",
     "start:test": "cross-env WEB_DOMAIN=https://test.fimple.co.uk lerna run start --stream --concurrency=30 --loglevel=error",
