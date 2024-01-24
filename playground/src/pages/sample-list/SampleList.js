@@ -2,11 +2,10 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 
 import {
   useFormManagerContext,
-  // useFiProxy,
   useTranslation,
   scopeKeys,
 } from 'component/base';
-import { Card, DataGrid, Filter, Input, BasePage, withFormPage, Select } from 'component/ui';
+import { Card, DataGrid, Filter, Input, InputFormat, BasePage, withFormPage, Select } from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
 import SampleDetail from '../sample-detail';
@@ -28,7 +27,7 @@ const SampleList = (props) => {
   useEffect(() => {
     getDataSource();
   }, []);
-  // const { executeGet, executeDelete } = useFiProxy();
+
   const prepareData = (data) => {
     const preparedData = { ...data };
   
@@ -192,8 +191,10 @@ const SampleList = (props) => {
   return (
     <BasePage {...props} title="Başvuru yönetimi" onActionClick={onActionClick} >
       <Filter onFilter={(data) => getDataSource(data)}>
-        <Input
+        <InputFormat
           name={'Id'}
+          mask={/^[1-9]?[0-9]{1}$|^100$/}
+          placeholder="only number"
           label={translate('Filter by ticket no')}
           primaryFilter
           xs={2}

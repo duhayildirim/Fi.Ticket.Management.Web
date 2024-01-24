@@ -8,6 +8,7 @@ import {
   BasePage,
   Card,
   Input,
+  InputFormat,
   withFormPage,
 } from 'component/ui';
 
@@ -83,9 +84,11 @@ const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
           ref={surnameRef}
           label={translate('Surname')}
         />
-        <Input
+        <InputFormat
           xs={2}
           required
+          mask={/^[1-9]?[0-9]{1}$|^100$/}
+          placeholder="only number"
           ref={ageRef}
           label={translate('Age')}
         />
