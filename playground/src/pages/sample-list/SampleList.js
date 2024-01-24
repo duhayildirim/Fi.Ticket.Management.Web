@@ -28,6 +28,7 @@ const SampleList = (props) => {
     getDataSource();
   }, []);
 
+  //  Kart üzerindeki filtreleme için dataların kontrol edildiği fonksiyon
   const prepareData = (data) => {
     const preparedData = { ...data };
   
@@ -47,11 +48,10 @@ const SampleList = (props) => {
     return preparedData;
   };
   
-
+  // Parametre gelirse search olarak çalışır aksi taktirde tüm veriyi listeler
   const getDataSource = (data) => {
     if (data?.Id || data?.Message || data?.Status) {
       const preparedData = prepareData(data);
-
       fetch('http://investmentbank.localhost:60000/api/dummydata/search', {
         method: 'POST',
         headers: {
@@ -68,12 +68,10 @@ const SampleList = (props) => {
       })
       .then(result => {
         console.log('Arama sonuçları:', result);
-        // İsteğin başarıyla tamamlandığına dair işlemleri gerçekleştir
         setDataSource(result);
       })
       .catch(error => {
         console.error('Arama hatası:', error);
-        // Hata durumunda işlemleri gerçekleştir
       });
     } else {
       fetch('http://investmentbank.localhost:60000/api/dummydata')
@@ -102,34 +100,40 @@ const SampleList = (props) => {
 
   const onActionClick = (action) => {};
 
+  // Yeni başvuru ekleme diyalogunu açar
   const addClicked = useCallback(() => {
     showDialog({
       title: translate('Create ticket'),
       content: <SampleDefinition />,
-      callback: () => {
-        getDataSource();
-      },
-    });
-  }, []);
-
-  const viewClicked = useCallback((id, data) => {
-    showDialog({
-      title: translate('Ticket details'),
-      content: <SampleDetail Id={data.Id} />,
       callback: (data) => {
-        if (data) {
+        // ekleme işlemi başırılıysa yeni eklenen data apiden döner callback ile liste render edilir
+        if(data){
           getDataSource();
         }
       },
     });
   }, []);
+
+  // Tüm başvuru detayını gösteren diyalogu açar
+  const viewClicked = useCallback((id, data) => {
+    showDialog({
+      title: translate('Ticket details'),
+      content: <SampleDetail Id={data.Id} />,
+      // detay sayfası data üzerinde herhangi bir işlem yapmadığından callback yapmasına ve
+      // listeyi baştan render etmesine gerek yoktur.
+    });
+  }, []);
   
+  // Başvuru güncelleme diyalogunu açar
   const editClicked = useCallback((id, data) => {
     showDialog({
       title: translate('Update ticket'),
       content: <SampleUpdate Id={data.Id} />,
-      callback: () => {
-        getDataSource();
+      callback: (data) => {
+        // güncelleme işlemi başırılıysa güncellenen data apiden döner callback ile liste render edilir
+        if(data){
+          getDataSource();
+        }
       },
     });
   }, []);
@@ -146,6 +150,7 @@ const SampleList = (props) => {
         .then((response) => response.json())
         .then((data) => {
           console.log('Veri başarıyla silindi:', data);
+          // silme işlemi başarılıysa silinen data apiden döner callback ile liste render edilir
           if (data) {
             getDataSource();
           }
@@ -156,6 +161,7 @@ const SampleList = (props) => {
     }
   };
 
+  // Data grid aksiyonları
   const gridActionList = useMemo(
     () => [
       {
@@ -177,6 +183,7 @@ const SampleList = (props) => {
     [deleteClicked, editClicked, viewClicked]
   );
 
+  // Kart aksiyonları
   const cardActionList = useMemo(
     () => [
       {

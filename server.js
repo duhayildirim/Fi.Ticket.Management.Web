@@ -11,10 +11,17 @@ const port = 60000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Uygulama api istekleri için cors uyguladığından ve fimplecouk ya da localhost içeren api ifadelerine izin verdiğinden
+// uygulama içinde küçük bir sunucu oluşturuldu ve localhost::60000 portunda çalışır hale getirildi.
+// Bu sunucu 'yarn start' komutu ile birlikte ayağa kalkar ekstra bir şey yapmaya gerek yoktur.
+// Sunucu public içindeki dummydata.json dosyasıyla çalışır.
+
+// get methodu- tüm datayı çeker
 app.get('/api/dummydata', (req, res) => {
   res.json(dummyData);
 });
 
+// getbyid- id'ye göre belirli bir datayı çeker
 app.get('/api/dummydata/:id', (req, res) => {
   const requestedId = req.params.id;
   const requestedData = dummyData.find(item => item.Id === requestedId);
@@ -26,6 +33,7 @@ app.get('/api/dummydata/:id', (req, res) => {
   }
 });
 
+// delete- id'ye göre ilgili datayı siler
 app.delete('/api/dummydata/:id', (req, res) => {
   const requestedId = req.params.id;
   const index = dummyData.findIndex(item => item.Id === requestedId);
@@ -48,6 +56,7 @@ app.delete('/api/dummydata/:id', (req, res) => {
   }
 });
 
+// post- yeni veri ekler
 app.post('/api/dummydata', (req, res) => {
   const newData = req.body;
 
@@ -68,6 +77,7 @@ app.post('/api/dummydata', (req, res) => {
   });
 });
 
+// update- id'ye göre data'yı siler
 app.put('/api/dummydata/:id', (req, res) => {
   const requestedId = req.params.id;
   const updatedData = req.body;
@@ -99,6 +109,7 @@ app.put('/api/dummydata/:id', (req, res) => {
   }
 });
 
+// filter- detaylı arama için card üzerindeki inputlara göre veriyi/verileri çeker
 app.post('/api/dummydata/search', (req, res) => {
   const searchData = req.body;
 

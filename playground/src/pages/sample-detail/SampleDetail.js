@@ -12,13 +12,16 @@ import {
 } from 'component/ui';
 
 /**
- * UI unique identifier meta-data.
+ * UI unique identifier meta-data. 
+ * generate-uiKey komutu ile uikey oluşturuldu ve Route'a tanımlandı
  */
 const uiMetadata = {
   moduleName: 'playground',
   uiKey: 'u29dhazade8',
 };
 
+// Data grid ekranında tüm verilerin listelenmesine gerek olmadığından 
+// ayrı bir detay sayfasıyla, ilgili datanın tüm detaylarını gösterecek bir diyalog oluşturuldu
 const SampleDetail = ({close , Id, ...rest}) => {
   const { translate } = useTranslation();
 

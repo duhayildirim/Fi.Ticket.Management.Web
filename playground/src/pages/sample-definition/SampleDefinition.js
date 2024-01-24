@@ -51,7 +51,7 @@ const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
         .then((response) => response.json())
         .then((newData) => {
           console.log('Yeni veri eklendi:', newData);
-          close();
+          close(newData);
         })
         .catch((error) => {
           console.error('Veri eklenirken hata oluştu:', error);

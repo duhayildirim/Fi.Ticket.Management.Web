@@ -15,16 +15,17 @@ import {
 
 /**
  * UI unique identifier meta-data.
+ * generate-uiKey komutu ile uikey oluşturuldu ve Route'a tanımlandı
  */
 const uiMetadata = {
   moduleName: 'playground',
   uiKey: 'u747cnga007',
 };
 
+// Update sayfası ile yetkili kişi başvuruyu değerlendirip bir karar oluşturabilir
+// Başvuru adına kullanıcıya bir mesaj gösterebilir ve başvuru durumu güncelleyebilir.
 const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
   const { translate } = useTranslation();
-
-  const [dataModel, setDataModel] = useState({});
 
   const messageRef = useRef();
   const statusRef = useRef();
@@ -48,6 +49,7 @@ const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
 
   const onActionClick = (action) => {
     if (action.commandName === 'Save') {
+      // 
       const data = {
         Id: dataSource.Id,
         Message: messageRef.current.value,
@@ -56,7 +58,7 @@ const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
         : "inceleniyor"
       }
       fetch(`http://investmentbank.localhost:60000/api/dummydata/${data.Id}`, {
-        method: 'PUT', // HTTP PUT isteği
+        method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
         },
@@ -70,7 +72,7 @@ const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
         })
         .then(updatedData => {
           console.log('Güncellenmiş Veri:', updatedData);
-          close();
+          close(updatedData);
         })
         .catch(error => {
           console.error('Veri güncelleme hatası:', error);
