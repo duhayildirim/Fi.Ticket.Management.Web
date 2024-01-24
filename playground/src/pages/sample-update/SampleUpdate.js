@@ -55,7 +55,6 @@ const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
         ? statusRef.current.value
         : "inceleniyor"
       }
-      console.log(data);
       fetch(`http://investmentbank.localhost:60000/api/dummydata/${data.Id}`, {
         method: 'PUT', // HTTP PUT isteği
         headers: {

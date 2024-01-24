@@ -99,6 +99,20 @@ app.put('/api/dummydata/:id', (req, res) => {
   }
 });
 
+app.post('/api/dummydata/search', (req, res) => {
+  const searchData = req.body;
+
+  const filteredData = dummyData.filter(item => {
+    return (
+      (!searchData.Id || item.Id === searchData.Id) &&
+      (!searchData.Message || item.Message.includes(searchData.Message)) &&
+      (!searchData.Status || item.Status === searchData.Status)
+    );
+  });
+
+  res.json(filteredData);
+});
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {

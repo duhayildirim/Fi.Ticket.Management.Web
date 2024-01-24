@@ -13,5 +13,8 @@
   "Ticket details": "Başvuru detayları",
   "Send a message to the user for ticket": "Başvuru için kullanıcıya bir mesaj gönder",
   "Update user's ticket status": "Kullanıcının başvuru durumunu güncelle",
-  "Message sent to user": "Kullanıcıya gönderilen mesaj"
+  "Message sent to user": "Kullanıcıya gönderilen mesaj",
+  "Filter by ticket no": "ID'ye göre filtrele",
+  "Filter by application status": "Başvuru durumuna göre filtrele",
+  "Filter by message sent to the user": "Kullanıcıya gönderilen mesaja göre filtrele"
 }

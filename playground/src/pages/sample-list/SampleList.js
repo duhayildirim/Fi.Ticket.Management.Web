@@ -2,10 +2,11 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 
 import {
   useFormManagerContext,
+  // useFiProxy,
   useTranslation,
   scopeKeys,
 } from 'component/base';
-import { Card, DataGrid, Filter, Input, BasePage, withFormPage } from 'component/ui';
+import { Card, DataGrid, Filter, Input, BasePage, withFormPage, Select } from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
 import SampleDetail from '../sample-detail';
@@ -27,17 +28,54 @@ const SampleList = (props) => {
   useEffect(() => {
     getDataSource();
   }, []);
+  // const { executeGet, executeDelete } = useFiProxy();
+  const prepareData = (data) => {
+    const preparedData = { ...data };
+  
+    if (data?.id === "" || data?.id === undefined || data?.id === null) {
+      preparedData.id = undefined;
+    }
+  
+    if (data?.message === "" || data?.message === undefined || data?.message === null) {
+      preparedData.message = undefined;
+    }
+  
+    if (data?.status === "" || data?.status === undefined || data?.status === null 
+      || !["inceleniyor", "onaylandı", "reddedildi"].includes(data?.status)) {
+      preparedData.status = undefined;
+    }
+  
+    return preparedData;
+  };
+  
 
   const getDataSource = (data) => {
-    if(data?.Id){
-      fetch(`http://investmentbank.localhost:60000/api/dummydata/${data.Id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setDataSource([data]);
-        })
-        .catch((error) => {
-          console.error('-api/dummydata/:id- error: ', error);
-        });
+    if (data?.Id || data?.Message || data?.Status) {
+      const preparedData = prepareData(data);
+
+      fetch('http://investmentbank.localhost:60000/api/dummydata/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(preparedData),
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Arama hatası:', response.statusText);
+        }
+      })
+      .then(result => {
+        console.log('Arama sonuçları:', result);
+        // İsteğin başarıyla tamamlandığına dair işlemleri gerçekleştir
+        setDataSource(result);
+      })
+      .catch(error => {
+        console.error('Arama hatası:', error);
+        // Hata durumunda işlemleri gerçekleştir
+      });
     } else {
       fetch('http://investmentbank.localhost:60000/api/dummydata')
         .then((response) => response.json())
@@ -69,10 +107,8 @@ const SampleList = (props) => {
     showDialog({
       title: translate('Create ticket'),
       content: <SampleDefinition />,
-      callback: (data) => {
-        if (data) {
-          getDataSource();
-        }
+      callback: () => {
+        getDataSource();
       },
     });
   }, []);
@@ -93,10 +129,8 @@ const SampleList = (props) => {
     showDialog({
       title: translate('Update ticket'),
       content: <SampleUpdate Id={data.Id} />,
-      callback: (data) => {
-        if (data) {
-          getDataSource();
-        }
+      callback: () => {
+        getDataSource();
       },
     });
   }, []);
@@ -160,9 +194,28 @@ const SampleList = (props) => {
       <Filter onFilter={(data) => getDataSource(data)}>
         <Input
           name={'Id'}
-          label={translate('Id')}
+          label={translate('Filter by ticket no')}
           primaryFilter
           xs={2}
+        />
+        <Input
+          name={'Message'}
+          xs={4}
+          multiline
+          label={translate('Filter by message sent to the user')}
+          primaryFilter
+        />
+        <Select
+          xs={3}
+          name={"Status"}
+          label={translate("Filter by application status")}
+          datasource={[
+            { Status: 'inceleniyor' },
+            { Status: 'onaylandı' },
+            { Status: 'reddedildi' },
+          ]}
+          valuePath={'Status'}
+          primaryFilter
         />
       </Filter>
       <Card
@@ -175,6 +228,7 @@ const SampleList = (props) => {
           columns={columns}
           actionList={gridActionList}
           autoSizeAllColumns
+          idProperty="Id"
         />
       </Card>  
     </BasePage>
