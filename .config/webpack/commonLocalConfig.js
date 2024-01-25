@@ -18,8 +18,8 @@ module.exports = function (moduleName, env) {
       disableHostCheck: true,
       headers: {
         /** Dev */
-        'Content-Security-Policy': `default-src https://*.fimple.co.uk wss://*.fimple.co.uk http://*.localhost:* http://localhost:* ws://localhost:* blob: data: 'unsafe-eval';font-src 'self' https://*.fimple.co.uk http://*.localhost:* http://localhost:* data:;style-src 'self' https://*.fimple.co.uk http://*.localhost:* http://localhost:* 'unsafe-inline';`,
-        "Access-Control-Allow-Origin": "*",
+        // 'Content-Security-Policy': `default-src https://*.fimple.co.uk wss://*.fimple.co.uk http://*.localhost:* http://localhost:* ws://localhost:* blob: data: 'unsafe-eval';font-src 'self' https://*.fimple.co.uk http://*.localhost:* http://localhost:* data:;style-src 'self' https://*.fimple.co.uk http://*.localhost:* http://localhost:* 'unsafe-inline';`,
+        // "Access-Control-Allow-Origin": "*",
         // 'Content-Security-Policy': `
         //   default-src https://*.fimple.co.uk wss://*.fimple.co.uk 'unsafe-eval'; font-src 'self' https://*.fimple.co.uk data:;style-src 'self' https://*.fimple.co.uk 'unsafe-inline'; img-src 'self' https://*.fimple.co.uk data:;
         //   style-src 'unsafe-inline';

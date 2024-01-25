@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   useTranslation,
   scopeKeys,
+  useSnackbar,
 } from 'component/base';
+
 import {
   BasePage,
   Card,
@@ -26,11 +28,12 @@ const uiMetadata = {
 // Başvuru adına kullanıcıya bir mesaj gösterebilir ve başvuru durumu güncelleyebilir.
 const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
   const { translate } = useTranslation();
+  const { enqueueError } = useSnackbar();
+
+  const [ dataSource, setDataSource ] = useState();
 
   const messageRef = useRef();
   const statusRef = useRef();
-
-  const [ dataSource, setDataSource ] = useState();
 
   const getDataSource = (Id) => {
     fetch(`http://investmentbank.localhost:60000/api/dummydata/${Id}`)
@@ -76,6 +79,7 @@ const SampleUpdate = ({ close, isBpm, Id, ...rest }) => {
         })
         .catch(error => {
           console.error('Veri güncelleme hatası:', error);
+          enqueueError('Veri güncelleme hatası:')
         });
     } else if (action.commandName == 'Cancel') {
       close && close(false);

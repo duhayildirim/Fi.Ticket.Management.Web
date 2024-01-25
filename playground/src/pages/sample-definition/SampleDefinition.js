@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useRef} from 'react';
 
 import {
   useTranslation,
   scopeKeys,
+  useSnackbar
 } from 'component/base';
+
 import {
   BasePage,
   Card,
@@ -22,6 +24,8 @@ const uiMetadata = {
 
 const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
   const { translate } = useTranslation();
+  const { enqueueError } = useSnackbar();
+
   const nameRef = useRef();
   const surnameRef = useRef();
   const ageRef = useRef();
@@ -55,6 +59,7 @@ const SampleDefinition = ({ close, isBpm, Id, ...rest }) => {
         })
         .catch((error) => {
           console.error('Veri eklenirken hata oluştu:', error);
+          enqueueError('Veri eklenirken hata oluştu.')
         });
       
     } else if (action.commandName == 'Cancel') {

@@ -31,6 +31,6 @@ Oluşturulan her sayfa için, unique bir uikey generate-uiKey komutu ile oluştu
 Bu sayfalarda yapılan kodlamalar, yorum satırları ile açıklanmıştır.
 <br />
 
-### Codding
+### Coding
 - Kodlama sürecinde: dosya-klasör oluşturma, değişken-fonksiyon tanımlama vb. uygulama içi uyulması beklenen frontend kurallarına ilgili dökümantasyon takip edilerek uyulmuştur. _(https://sdk-docs.fimple.co.uk/sdkdocs/development/Frontend-Coding-Rules.html)_ 
 - Kodlama sürecinde: açılacak yeni bir diyalog, eklenecek yeni bir input, input özelleştirme, input validasyon, Card, Responsive tasarım ve benzeri konularda uygulamanın kendi dokümantasyonu baz alınmıştır. _(https://storybook.sandbox.fimple.co.uk/)_

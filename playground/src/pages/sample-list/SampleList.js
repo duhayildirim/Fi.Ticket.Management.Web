@@ -4,8 +4,18 @@ import {
   useFormManagerContext,
   useTranslation,
   scopeKeys,
+  useSnackbar,
 } from 'component/base';
-import { Card, DataGrid, Filter, Input, InputFormat, BasePage, withFormPage, Select } from 'component/ui';
+
+import { Card, 
+  DataGrid,
+  Filter,
+  Input,
+  InputFormat,
+  BasePage,
+  withFormPage,
+  Select,
+} from 'component/ui';
 
 import SampleDefinition from '../sample-definition';
 import SampleDetail from '../sample-detail';
@@ -21,8 +31,10 @@ const uiMetadata = {
 
 const SampleList = (props) => {
   const { showDialog } = useFormManagerContext();
-  const [ dataSource, setDataSource ] = useState([]);
   const { translate } = useTranslation();
+  const { enqueueSuccess, enqueueError, enqueueInfo, enqueueWarning } = useSnackbar();
+
+  const [ dataSource, setDataSource ] = useState([]);
 
   useEffect(() => {
     getDataSource();
@@ -63,14 +75,17 @@ const SampleList = (props) => {
         if (response.ok) {
           return response.json();
         } else {
+          enqueueError('Arama hatası:');
           throw new Error('Arama hatası:', response.statusText);
         }
       })
       .then(result => {
-        console.log('Arama sonuçları:', result);
+        result.length > 0 ? enqueueInfo(`${result.length} adet veri bulundu.`) 
+          : enqueueWarning('Arama sonucu bulunamadı. Lütfen farklı parametreler deneyin.') 
         setDataSource(result);
       })
       .catch(error => {
+        enqueueError('Arama hatası:', error);
         console.error('Arama hatası:', error);
       });
     } else {
@@ -109,6 +124,7 @@ const SampleList = (props) => {
         // ekleme işlemi başırılıysa yeni eklenen data apiden döner callback ile liste render edilir
         if(data){
           getDataSource();
+          enqueueSuccess("Yeni başvuru oluşturuldu.");
         }
       },
     });
@@ -133,6 +149,7 @@ const SampleList = (props) => {
         // güncelleme işlemi başırılıysa güncellenen data apiden döner callback ile liste render edilir
         if(data){
           getDataSource();
+          enqueueSuccess("Başvuru güncellendi.");
         }
       },
     });
@@ -153,9 +170,11 @@ const SampleList = (props) => {
           // silme işlemi başarılıysa silinen data apiden döner callback ile liste render edilir
           if (data) {
             getDataSource();
+            enqueueSuccess("Başvuru silindi.");
           }
         })
         .catch((error) => {
+          enqueueError("Başvuru silme hatası.")
           console.error('Veri silme hatası:', error);
         });
     }
