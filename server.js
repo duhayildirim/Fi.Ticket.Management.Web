@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Uygulama api istekleri için cors uyguladığından ve fimplecouk ya da localhost içeren api ifadelerine izin verdiğinden
-// uygulama içinde küçük bir sunucu oluşturuldu ve localhost::60000 portunda çalışır hale getirildi.
+// uygulama içinde küçük bir sunucu oluşturuldu ve localhost:60000 portunda çalışır hale getirildi.
 // Bu sunucu 'yarn start' komutu ile birlikte ayağa kalkar ekstra bir şey yapmaya gerek yoktur.
 // Sunucu public içindeki dummydata.json dosyasıyla çalışır.
 

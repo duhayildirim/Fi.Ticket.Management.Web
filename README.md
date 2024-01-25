@@ -1,65 +1,36 @@
-# Fimple Web Project
+# Fimple Ticket Management Web
+Fimple web projesi içini eklenen yeni menüde(Eğitim>Örnek listeleme), başvuru yönetim sistemi oluşturuldu.
 
-v1
+- _Kullanıcı gerekli inputları doldurduktan sonra başvuru oluşturur. Kullanıcı girdileri gerekli validasyon işlemlerini geçtikten sonra diğer başvurularla birlikte listelenir._
+- _Tüm başvuruların listede belirli özellikleri görünür şekilde listelenir. Liste kolonları daha iyi bir kullanıcı deneyimi açısından kalabalık ve karışık tutulmamıştır. Sadece başvuruların temel özellikleri listelenmiştir_ 
+- _Bir başvurunun tüm özelliklerini görüntülenmek istenirse liste üzerinden başvurun satırında çıkan butonlardan detay aracılığıyla detay sayfasına gidilebilir._
+- _Bir başvuru silinmek istenirse ilgili satırda çıkan butonlardan sil aracılığıyla silinebilir._
+- _Başvuru reddedilebilir, onaylanabilir veya incelemesinin devam ettiği belirtilebilir. Bununla birlikte kullanıcıya başvurusuna dair bir mesaj gönderilebilir. Bu işlem, ilgili başvurunun satırında çıkan butonlardan güncelle aracılığıyla gerçekleştirilir._
+- _Listeleme ekranında tüm verilerin tüm özellikleri listelenmemesine rağmen kart üzerinde bulunan inputlar aracılığıyla daha detaylı bir arama yapılabilir._
 
-## _Simple and Composable Financial Platform With the “Financial Function As A Service” Principle_
-
-## Prerequisites
-
-- node version ^17.9.0
-- yarn version ^1.22.18
-- nvm version ^0.39.1 optional for managing node version
 
 ## Start and Run
-
-In root directory,
-
 ```
-`yarn` -- Install dependencies
-`yarn start` -- Starts the Container(host) and all Micro Frontends with lerna
+`yarn` -- Bağımlılıkları yükler
+`yarn start` -- Dummydatalarla çalışmaya imkan sağlan server.js, Container ve mikrofrontend uygulamalarını başlatır.
 ```
 
-Navigate to _http://localhost:50000_ to start the container
+Uygulama bu adreste başlayacaktır:_http://localhost:50000_
 
-## Manuel Installation
+## Folder Structure
+### Yeni eklenen dosyalar
+- root dizin > server.js
+Uygulama içinde api istekleri cors'a takıldığı için _(fimplecouk ya da localhost içeren api ifadelerine izin verdiğinden)_ uygulama içinde küçük bir sunucu oluşturuldu ve localhost:60000 portunda çalışır hale getirildi.
+Bu sunucu 'yarn start' komutu ile birlikte ayağa kalkar ekstra bir şey yapmaya gerek yoktur.
+Sunucu public içindeki DummyData.json dosyasıyla çalışır.
+Sunucu ile ilgili kodlamalar _(api istekli, port ayarları vb.)_ ilgili dosyada yorum satırlarıyla açıklanmıştır.
+<br />
+- pages > sample-list, sample-definition, sample-detail, sample-update
+Gerçekleştirilen ticket sistemindeki CRUD işlemleri ayrı klasör yapısına bölünmüştür. Sistemi daha iyi anlamak, daha fazla kodlama yapmak, sıfırdan sayfalar oluşturabilmeyi öğrenmek, framework'ü daha iyi anlamak, SampleList.js dosyasını kalabalık tutmamak ve daha temiz kod bir adına bu yöntem tercih edilmiştir.
+Oluşturulan her sayfa için, unique bir uikey generate-uiKey komutu ile oluşturulmuş ve routes.js içinde tanımlanmıştır.
+Bu sayfalarda yapılan kodlamalar, yorum satırları ile açıklanmıştır.
+<br />
 
-```
-`yarn` -- Install dependencies
-`cd saga` -- container micro frontend directory
-`npm start` --  Starts the container micro frontend
-```
-
-_Web Docerizetion in local_
-
-```
-`docker build -t fi-web-base  -f Dockerfile .` -- create fi-web-base image
-`docker-compose -f docker-compose.yaml up` -- build and run web docker containers
-```
-
-_Storybook Docerizetion in local_
-
-```
-`docker build -t fi-storybook-web  -f component/Dockerfile .` -- create fi-storybook-web image
-`docker-compose -f docker-compose.storybook.yaml up` -- build and run storybook container
-```
-
-## Projects
-
-| Name       | Port  |
-| ---------- | ----- |
-| dashboard  | 50002 |
-| metadata   | 50005 |
-| loan       | 50006 |
-| customer   | 50007 |
-| accounting | 50008 |
-| deposit    | 50009 |
-| saga       | 50010 |
-| component  | 50011 |
-| catalog    | 50012 |
-| fx         | 50013 |
-
-## New Module Creation
-
-```shell
-yarn generate-module mymodule
-```
+### Codding
+- Kodlama sürecinde: dosya-klasör oluşturma, değişken-fonksiyon tanımlama vb. uygulama içi uyulması beklenen frontend kurallarına ilgili dökümantasyon takip edilerek uyulmuştur. _(https://sdk-docs.fimple.co.uk/sdkdocs/development/Frontend-Coding-Rules.html)_ 
+- Kodlama sürecinde: açılacak yeni bir diyalog, eklenecek yeni bir input, input özelleştirme, input validasyon, Card, Responsive tasarım ve benzeri konularda uygulamanın kendi dokümantasyonu baz alınmıştır. _(https://storybook.sandbox.fimple.co.uk/)_
