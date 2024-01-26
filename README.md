@@ -15,7 +15,7 @@ Fimple web projesi içini eklenen yeni menüde(Eğitim>Örnek listeleme), başvu
 `yarn start` -- Dummydatalarla çalışmaya imkan sağlan server.js, Container ve mikrofrontend uygulamalarını başlatır.
 ```
 
-Uygulama bu adreste başlayacaktır:_http://localhost:50000_
+Uygulama bu adreste başlayacaktır:_http://investmentbank.localhost:50000/_
 
 ## Folder Structure
 ### Yeni eklenen dosyalar
@@ -25,6 +25,7 @@ Bu sunucu 'yarn start' komutu ile birlikte ayağa kalkar ekstra bir şey yapmaya
 Sunucu public içindeki DummyData.json dosyasıyla çalışır.
 Sunucu ile ilgili kodlamalar _(api istekli, port ayarları vb.)_ ilgili dosyada yorum satırlarıyla açıklanmıştır.
 <br />
+
 - pages > sample-list, sample-definition, sample-detail, sample-update
 Gerçekleştirilen ticket sistemindeki CRUD işlemleri ayrı klasör yapısına bölünmüştür. Sistemi daha iyi anlamak, daha fazla kodlama yapmak, sıfırdan sayfalar oluşturabilmeyi öğrenmek, framework'ü daha iyi anlamak, SampleList.js dosyasını kalabalık tutmamak ve daha temiz kod bir adına bu yöntem tercih edilmiştir.
 Oluşturulan her sayfa için, unique bir uikey generate-uiKey komutu ile oluşturulmuş ve routes.js içinde tanımlanmıştır.
